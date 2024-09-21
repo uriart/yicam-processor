@@ -1,4 +1,5 @@
 opencv-python-headless
 paho-mqtt
 telebot
-ultralytics
+onnxruntime
+pyyaml
