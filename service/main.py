@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 import numpy as np
-import random, requests, telebot, cv2
+import random, requests, cv2
 from datetime import datetime
 from config import *
 from ultralytics import YOLO
