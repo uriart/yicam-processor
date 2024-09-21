@@ -1,6 +1,6 @@
 * Build image
 
-docker build -t yicam-processing:0.0.1 .
+docker build -t yicam-processor:0.0.1 .
 
 * Run container
 
@@ -10,4 +10,4 @@ docker run -d \
 -e MQTT_SERVER='XXX' \
 -e MQTT_MOTION_TOPIC='XXX' \
 -e CAM_IP_URI='http://XXX' \
--i yicam-processing:0.0.1
+-i yicam-processor:0.0.1
