@@ -1,0 +1,7 @@
+import os
+
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID').split(',')
+MQTT_SERVER = os.getenv('MQTT_SERVER')
+MQTT_MOTION_TOPIC = os.getenv('MQTT_MOTION_TOPIC')
+CAM_IP_URI = os.getenv('CAM_IP_URI')

@@ -1,0 +1,13 @@
+* Build image
+
+docker build -t yicam-processing:0.0.1 .
+
+* Run container
+
+docker run -d \
+-e TELEGRAM_BOT_TOKEN='XXX' \
+-e TELEGRAM_CHAT_ID='XXX,XXX' \
+-e MQTT_SERVER='XXX' \
+-e MQTT_MOTION_TOPIC='XXX' \
+-e CAM_IP_URI='http://XXX' \
+-i yicam-processing:0.0.1
