@@ -6,7 +6,7 @@ docker build -t yicam-processor:0.0.1 .
 
 docker run -d \
 -e TELEGRAM_BOT_TOKEN='XXX' \
--e TELEGRAM_CHAT_ID='XXX,XXX' \
+-e TELEGRAM_CHAT_IDS='XXX,XXX' \
 -e MQTT_SERVER='XXX' \
 -e MQTT_MOTION_TOPIC='XXX' \
 -e CAM_IP_URI='http://XXX' \
