@@ -47,7 +47,6 @@ class MosquittoConsumer:
         except Exception as e:
             LOGGER.error(f"Error procesando la imagen: {e}")
             
-
     # Función para enviar la imagen a Telegram
     def send_telegram_alert(self, image_path):
         url = f'https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto'
@@ -57,21 +56,24 @@ class MosquittoConsumer:
                 data = {'chat_id': chat_id, 'caption': '🚨 Persona detectada.'}
                 response = requests.post(url, files=files, data=data)
                 if response.status_code == 200:
-                    LOGGER.info("Alerta de detección de persona enviada a Telegram.")
+                    LOGGER.warning("Alerta de detección de persona enviada a Telegram.")
                 else:
                     LOGGER.error(f"Error al enviar la alerta. Código de estado: {response.status_code}")
 
     # Configurar el cliente MQTT
     def setup_mqtt(self):
-        client_id = f'python-mqtt-{random.randint(0, 1000)}'
-        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, client_id)
+        try:
+            client_id = f'python-mqtt-{random.randint(0, 1000)}'
+            client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, client_id)
+            client.on_message = self.detect_person
+            client.connect(MQTT_SERVER, 1883, 60) 
+            client.subscribe(MQTT_MOTION_TOPIC)
 
-        client.on_message = self.detect_person
-        client.connect(MQTT_SERVER, 1883, 60) 
-        client.subscribe(MQTT_MOTION_TOPIC)
+            LOGGER.info(f"MQTT client {client_id}. Consumer service started.")
+            client.loop_forever()
 
-        LOGGER.info(f"MQTT client {client_id}. Consumer service started.")
-        client.loop_forever()
+        except Exception as e:
+            LOGGER.error(f"Error al configurar el MQTT: {e}")
 
     def preprocess(self):
         """
