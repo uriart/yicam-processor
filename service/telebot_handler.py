@@ -10,6 +10,7 @@ class TelebotHandler:
         self.bot.message_handler(commands=['help', 'start'])(self.help)
         self.bot.message_handler(commands=['snapshoot'])(self.take_snapshoot)
         self.bot.message_handler(commands=['moveCam'])(self.moveCam)
+        self.bot.message_handler(commands=['status'])(self.status)
         self.bot.callback_query_handler(func=lambda call: True)(self.callback_query)
 
     def run(self):
@@ -23,7 +24,8 @@ class TelebotHandler:
                 "¡Hola! Aquí tienes una lista de comandos que puedes usar:\n\n"
                 "1️⃣ **/help** - Muestra este mensaje de ayuda.\n"
                 "2️⃣ **/moveCam** - Apunta la cámara a la ubicación seleccionada.\n"
-                "3️⃣ **/snapshoot** - Toma una instantánea de la cámara IP y la envía aquí.\n\n"
+                "3️⃣ **/snapshoot** - Toma una instantánea de la cámara IP y la envía aquí.\n"
+                "3️⃣ **/status** - Estado de la detección de movimiento.\n\n"
             )
             self.bot.reply_to(message, help_message, parse_mode='Markdown')
                 
@@ -53,6 +55,13 @@ class TelebotHandler:
 
             else:
                 LOGGER.error(f"Error recuperando los presets. Código de estado: {response.status_code}")
+
+    def status(self, message):
+        if str(message.chat.id) in TELEGRAM_CHAT_IDS:
+            LOGGER.info("TODO")
+
+            #http://192.168.1.129/cgi-bin/camera_settings.sh?MOTION_DETECTION=yes
+            #http://192.168.1.129/cgi-bin/getlastrecordedvideo.sh?type=4
             
     def callback_query(self, call):
         response = requests.get(f'{CAM_IP_URI}/cgi-bin/preset.sh?num={call.data}&action=go_preset')
