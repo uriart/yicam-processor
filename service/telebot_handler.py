@@ -58,9 +58,18 @@ class TelebotHandler:
 
     def status(self, message):
         if str(message.chat.id) in TELEGRAM_CHAT_IDS:
-            LOGGER.info("TODO")
+            response = requests.get(f'{CAM_IP_URI}/cgi-bin/get_configs.sh?conf=camera')
 
-            #http://192.168.1.129/cgi-bin/camera_settings.sh?MOTION_DETECTION=yes
+            if response.status_code == 200:
+                response_json = response.json()
+
+                self.bot.send_message(
+                    message.chat.id, 
+                    f"Status:\n\nSWITCH_ON: {response_json['SWITCH_ON']}\nMOTION DETECTION: {response_json['MOTION_DETECTION']}\n"
+                )
+
+
+            #http://192.168.1.129/cgi-bin/camera_settings.sh?motion_detection=yes
             #http://192.168.1.129/cgi-bin/getlastrecordedvideo.sh?type=4
             
     def callback_query(self, call):
